@@ -10,7 +10,6 @@ import {
   query,
   where,
   updateDoc,
-  doc
 } from 'firebase/firestore';
 import { logAction } from '../utils';
 import './Import.css';
@@ -23,18 +22,21 @@ const Import = () => {
     setCollapsed(!collapsed);
   };
 
-  const downloadTemplate = () => {
-    const csvHeaders = ['Item Name', 'Category', 'Description', 'Quantity'];
-    const csvContent = [csvHeaders.join(',')].join('\n');
+  const handleDownloadTemplate = () => {
+    const csvContent = [
+      ['Item Name', 'Service Tag', 'Model', 'Category', 'Status', 'Location', 'Notes', 'Mac Address'],
+      ['Example Laptop', '12345ABC', 'Dell XPS 13', 'Laptop', 'In Use', 'Office', 'No issues', '00:1A:2B:3C:4D:5E']
+    ]
+      .map(e => e.join(','))
+      .join('\n');
+
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
-
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', 'inventory_template.csv');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'import_template.csv';
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   const handleFileUpload = async (event) => {
@@ -52,7 +54,9 @@ const Import = () => {
         complete: async (results) => {
           const parsedData = results.data;
           const validItems = parsedData.filter(item =>
-            item['Item Name'] && item['Category'] && item['Description'] && item['Quantity']
+            item['Item Name'] && item['Service Tag'] && item['Model'] &&
+            item['Category'] && item['Status'] && item['Location'] &&
+            item['Notes'] && item['Mac Address']
           );
 
           let addedCount = 0;
@@ -69,16 +73,24 @@ const Import = () => {
               const existingItem = snapshot.docs[0].data();
 
               const hasChanged =
+                existingItem.serviceTag !== item['Service Tag'] ||
+                existingItem.model !== item['Model'] ||
                 existingItem.category !== item['Category'] ||
-                existingItem.description !== item['Description'] ||
-                Number(existingItem.quantity) !== Number(item['Quantity']);
+                existingItem.status !== item['Status'] ||
+                existingItem.location !== item['Location'] ||
+                existingItem.notes !== item['Notes'] ||
+                existingItem.macAddress !== item['Mac Address'];
 
               if (hasChanged) {
                 const updatedItem = {
                   name: itemName,
+                  serviceTag: item['Service Tag'],
+                  model: item['Model'],
                   category: item['Category'],
-                  description: item['Description'],
-                  quantity: Number(item['Quantity']),
+                  status: item['Status'],
+                  location: item['Location'],
+                  notes: item['Notes'],
+                  macAddress: item['Mac Address']
                 };
 
                 await updateDoc(docRef, updatedItem);
@@ -86,18 +98,20 @@ const Import = () => {
                   oldItem: existingItem,
                   newItem: updatedItem
                 });
-
                 updatedCount++;
               } else {
                 console.log(`No changes for ${itemName}, skipping`);
               }
-
             } else {
               const newItem = {
                 name: itemName,
+                serviceTag: item['Service Tag'],
+                model: item['Model'],
                 category: item['Category'],
-                description: item['Description'],
-                quantity: Number(item['Quantity']),
+                status: item['Status'],
+                location: item['Location'],
+                notes: item['Notes'],
+                macAddress: item['Mac Address']
               };
 
               await addDoc(collection(db, 'assets'), newItem);
@@ -149,11 +163,15 @@ const Import = () => {
         <div className="import-container">
           <h2>Import Inventory Items</h2>
           <input type="file" accept=".csv" onChange={handleFileUpload} />
-          <p>Upload a CSV file with columns: <strong>Item Name, Category, Description, Quantity</strong></p>
-          
-          <button onClick={downloadTemplate} className="template-btn">
-            Download CSV Template
+          <button onClick={handleDownloadTemplate} style={{ marginTop: '1rem' }}>
+            Download Template
           </button>
+          <p>
+            Upload a CSV file with columns: <br />
+            <strong>
+              Item Name, Service Tag, Model, Category, Status, Location, Notes, Mac Address
+            </strong>
+          </p>
         </div>
       </div>
     </div>
