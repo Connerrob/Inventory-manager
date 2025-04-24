@@ -1,0 +1,69 @@
+/* import.css */
+.import-container {
+    background-color: var(--background);
+    color: var(--text);
+    padding: 2rem;
+    max-width: 600px;
+    margin: 3rem auto;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+  }
+  
+  .import-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary);
+  }
+  
+  .import-container input[type="file"] {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    background-color: var(--background);
+    color: var(--text);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .import-container input[type="file"]::file-selector-button {
+    background-color: var(--primary);
+    color: var(--text);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 1rem;
+  }
+  
+  .import-container input[type="file"]::file-selector-button:hover {
+    background-color: var(--button-hover);
+  }
+  
+  .import-container p {
+    font-size: 0.9rem;
+    color: var(--secondary);
+    margin-top: 0.5rem;
+  }
+  .drop-zone {
+    border: 2px dashed var(--accent);
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    background-color: #2a2a2a;
+    color: var(--text);
+    margin-bottom: 1rem;
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  
+  .drop-zone.dragging {
+    background-color: #3a3a3a;
+    border-color: var(--primary);
+  }
+  
+  .import-container.drag-active {
+    border: 2px dashed var(--accent);
+    background-color: rgba(76, 175, 80, 0.05);
+  }
+  
