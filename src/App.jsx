@@ -1,11 +1,10 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import './App.css';
-
-import LoginForm from './components/LoginForm'; 
-import Dashboard from './components/Dashboard';
-import Reports from './components/Reports';
-import Import from './components/Import'
+import LoginForm from './pages/LoginForm';
+import Dashboard from './pages/Dashboard';
+import Reports from './pages/Reports';
+import Import from './pages/Import';
 
 function App() {
   return (
@@ -14,10 +13,11 @@ function App() {
         <Route path="/" element={<LoginForm />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/reports" element={<Reports />} />
-        <Route path="/Import" element={<Import />} />
+        <Route path="/import" element={<Import />} />
       </Routes>
     </Router>
   );
 }
 
 export default App;
+

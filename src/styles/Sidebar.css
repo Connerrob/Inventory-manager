@@ -1,0 +1,126 @@
+/* Sidebar container */
+.sidebar {
+  border-radius: 0 !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20%;
+  height: 100vh;
+  background-color: #1e1e1e;
+  color: #fff;
+  padding-top: 1.5rem;
+  transition: width 0.3s ease;
+  z-index: 1000;
+  overflow-x: hidden;
+  box-shadow: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Hide scrollbar */
+.sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Sidebar collapsed state */
+.sidebar.collapsed {
+  width: 75px;
+}
+
+/* Nav link styling */
+.sidebar .nav-link {
+  color: #ccc;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+/* Adjust icon size */
+.sidebar .nav-link svg {
+  margin-right: 10px;
+  font-size: 1.1rem;
+}
+
+/* Hover effect */
+.sidebar .nav-link:hover {
+  background-color: #2c2c2c;
+  color: #fff;
+}
+
+/* Collapsed state link styling */
+.sidebar.collapsed .nav-link {
+  justify-content: center;
+  padding: 16px 0;
+}
+
+.sidebar.collapsed .nav-link svg {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+/* Button styling */
+.sidebar button {
+  background: none;
+  border: none;
+  color: #ccc;
+  font-size: 1.4rem;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+/* Collapsed button styling */
+.sidebar.collapsed button {
+  justify-content: center;
+  padding: 16px 0;
+}
+
+/* Button hover effect */
+.sidebar button:hover {
+  color: #fff;
+}
+
+/* Active link styling (same for collapsed and expanded) */
+.sidebar .nav-link.active {
+  background-color: #333; /* Slightly darker background */
+  color: #fff;
+  border-left: 4px solid var(--accent, #4CAF50); /* Accent color */
+  font-weight: 500;
+  padding-left: 5px; 
+  padding-right: 5px;
+  transition: background-color 0.2s ease, border-left 0.2s ease;
+}
+
+/* Active link styling for collapsed sidebar */
+.sidebar.collapsed .nav-link.active {
+  background-color: #333; /* Same background color */
+  color: #fff;
+  border-left: 4px solid var(--accent, #4CAF50); /* Same left border */
+  font-weight: 500;
+}
+
+/* Active link indicator for collapsed state (for icon positioning) */
+.sidebar.collapsed .nav-link.active svg {
+  margin-left: 0; /* Adjust icon position */
+  font-size: 1.3rem; /* Slightly larger icon when collapsed */
+}
+
+/* Responsive sidebar adjustments */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+  }
+
+  .sidebar.collapsed {
+    width: 60px;
+  }
+}

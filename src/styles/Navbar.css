@@ -1,0 +1,35 @@
+.navbar-custom {
+  width: 100%;
+  background-color: #1f1f1f;
+  color: #ffffff;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #333;
+}
+
+.navbar-brand-text {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-right: 24px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 16px;
+  background-color: #2a2a2a;
+  color: #ffffff;
+  border: 1px solid #444;
+  border-radius: 8px;
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: #aaa;
+}
+
+.search-input:focus {
+  border-color: #4caf50;
+}

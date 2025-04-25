@@ -1,0 +1,134 @@
+/* Reports table styling */
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: var(--background);
+    color: var(--text);
+  }
+  
+  .styled-table th,
+  .styled-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+    word-wrap: break-word;
+  }
+  
+  .styled-table th {
+    background-color: var(--primary);
+    color: var(--text);
+    font-weight: bold;
+    box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .styled-table tr:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  .styled-table td {
+    max-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--secondary);
+  }
+  
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .pagination button {
+    margin: 0 5px;
+    padding: 6px 14px;
+    border: 1px solid #333;
+    background-color: #1f1f1f;
+    color: #fff; 
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    border-radius: 4px;
+  }
+  
+  .pagination button.active-page {
+    background-color: #4CAF50; 
+    color: #fff;
+    font-weight: bold;
+  }
+  
+  .pagination button.page-number {
+    background-color: #1f1f1f;
+    border: 1px solid #333; 
+    padding: 8px 14px;
+    font-size: 1rem;
+    border-radius: 4px;
+    color: #fff; /* White text */
+    transition: background-color 0.3s ease;
+  }
+  
+  .pagination button.page-number.active-page {
+    background-color: #4CAF50; 
+    color: #fff; 
+    font-weight: bold;
+  }
+  
+  .pagination button.page-number:hover {
+    background-color: #007BFF;
+    color: #fff;
+    transform: scale(1.05); 
+  }
+  
+  .pagination .ellipsis {
+    font-weight: bold;
+    color: #fff; 
+    margin: 0 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .section-title {
+      font-size: 1.5rem;
+    }
+  
+    .pagination button {
+      font-size: 0.85rem;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .section-title {
+      font-size: 1.2rem;
+    }
+  
+    .pagination button {
+      font-size: 0.75rem;
+    }
+  }
+  
+  .reports-container {
+    display: flex;
+    padding-right: 12%;
+    flex-direction: column;
+    height: 100vh;
+    background-color: var(--background);
+  }
+  
+  .reports-content {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  
+  .section-title {
+    font-size: 1.8rem;
+    color: var(--text);
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  
+  .reports-container .row {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+  

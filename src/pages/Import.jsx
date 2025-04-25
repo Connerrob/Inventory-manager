@@ -1,34 +1,24 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { FaBars, FaHome, FaClipboardList, FaFileImport, FaSignOutAlt } from 'react-icons/fa';
-import Papa from 'papaparse';
+import { useLocation } from 'react-router-dom';
 import { db } from '../firebase';
-import {
-  collection,
-  addDoc,
-  getDocs,
-  query,
-  where,
-  updateDoc,
-  doc
-} from 'firebase/firestore';
+import { collection, addDoc, getDocs, query, where, updateDoc, doc } from 'firebase/firestore';
 import { logAction } from '../utils';
-import './Import.css';
+import Papa from 'papaparse';
+import Sidebar from '../components/Sidebar';
+import AddAssetModal from '../components/AddAssetModal';
 
 const Import = () => {
   const [collapsed, setCollapsed] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const location = useLocation();
 
-  const toggleSidebar = () => {
-    setCollapsed(!collapsed);
-  };
+  const toggleSidebar = () => setCollapsed(!collapsed);
 
   const downloadTemplate = () => {
     const csvHeaders = ['Item Name', 'Category', 'Description', 'Quantity'];
     const csvContent = [csvHeaders.join(',')].join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
-
     const link = document.createElement('a');
     link.href = url;
     link.setAttribute('download', 'inventory_template.csv');
@@ -40,7 +30,6 @@ const Import = () => {
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
-
     const confirmImport = window.confirm(`Are you sure you want to import "${file.name}"?`);
     if (!confirmImport) return;
 
@@ -82,16 +71,11 @@ const Import = () => {
                 };
 
                 await updateDoc(docRef, updatedItem);
-                await logAction('edit', {
-                  oldItem: existingItem,
-                  newItem: updatedItem
-                });
-
+                await logAction('edit', { oldItem: existingItem, newItem: updatedItem });
                 updatedCount++;
               } else {
                 console.log(`No changes for ${itemName}, skipping`);
               }
-
             } else {
               const newItem = {
                 name: itemName,
@@ -115,45 +99,28 @@ const Import = () => {
   };
 
   return (
-    <div className="dashboard-container">
-      <div className={`sidebar ${collapsed ? 'collapsed' : 'open'}`}>
-        <button className="toggle-btn" onClick={toggleSidebar}><FaBars /></button>
-        <nav className="sidebar-nav">
-          <ul>
-            <li>
-              <Link to="/dashboard" className={location.pathname === '/dashboard' ? 'active' : ''}>
-                {collapsed ? <FaHome /> : <><FaHome /> Home</>}
-              </Link>
-            </li>
-            <li>
-              <Link to="/reports" className={location.pathname === '/reports' ? 'active' : ''}>
-                {collapsed ? <FaClipboardList /> : <><FaClipboardList /> Reports</>}
-              </Link>
-            </li>
-            <li>
-              <Link to="/Import" className={location.pathname === '/Import' ? 'active' : ''}>
-                {collapsed ? <FaFileImport /> : <><FaFileImport /> Import</>}
-              </Link>
-            </li>
-            <li>
-              <a href="#">{collapsed ? <FaSignOutAlt /> : <><FaSignOutAlt /> Logout</>}</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-
-      <div className="main-content">
-        <div className="navbar">
-          <h1>Import</h1>
-        </div>
-        <div className="import-container">
+    <div className="import-container-wrapper">
+      <Sidebar collapsed={collapsed} toggleSidebar={toggleSidebar} location={location} />
+      <div className={`import-content ${collapsed ? 'collapsed' : ''}`}>
+        <div className="import-content-wrapper">
           <h2>Import Inventory Items</h2>
-          <input type="file" accept=".csv" onChange={handleFileUpload} />
-          <p>Upload a CSV file with columns: <strong>Item Name, Category, Description, Quantity</strong></p>
+          <div className="file-upload-container">
+            <input 
+              type="file" 
+              accept=".csv" 
+              onChange={handleFileUpload} 
+              className="file-input"
+            />
+            <p className="file-instruction">
+              Upload a CSV file with columns: <strong>Item Name, Category, Description, Quantity</strong>
+            </p>
+          </div>
           
-          <button onClick={downloadTemplate} className="template-btn">
+          <button onClick={downloadTemplate} className="download-template-btn">
             Download CSV Template
           </button>
+
+          <AddAssetModal showModal={showModal} closeModal={() => setShowModal(false)} />
         </div>
       </div>
     </div>
