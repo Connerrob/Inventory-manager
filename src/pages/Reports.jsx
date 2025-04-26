@@ -18,31 +18,43 @@ const Reports = () => {
     const fetchLogs = async () => {
       try {
         const logsSnapshot = await getDocs(collection(db, 'assetLogs'));
-        const logsList = logsSnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        // Sort logs by Firestore timestamp (newest first)
-        logsList.sort((a, b) => b.timestamp?.toDate() - a.timestamp?.toDate());
-
+        const logsList = logsSnapshot.docs.map(doc => {
+          const log = doc.data();
+          let timestamp = log.timestamp;
+  
+          // Check if it's a Firestore Timestamp object
+          if (timestamp && timestamp.toDate) {
+            timestamp = timestamp.toDate(); // Convert to JavaScript Date object
+          } else if (typeof timestamp === 'string') {
+            timestamp = new Date(timestamp); // If it's a string, convert it to Date
+          } else {
+            timestamp = 'Invalid Date'; // Handle if timestamp is missing or invalid
+          }
+  
+          return { id: doc.id, ...log, timestamp };
+        });
+  
+        logsList.sort((a, b) => (a.timestamp !== 'Invalid Date' && b.timestamp !== 'Invalid Date' ? b.timestamp - a.timestamp : 0));
+  
         setLogs(logsList);
       } catch (error) {
         console.error('Error fetching logs:', error);
       }
     };
-
+  
     fetchLogs();
   }, []);
+  
 
   const formatTimestamp = (timestamp) => {
-    if (!timestamp || typeof timestamp.toDate !== 'function') return 'Invalid Date';
-    return timestamp.toDate().toLocaleString(undefined, {
+    if (!(timestamp instanceof Date) || isNaN(timestamp)) return 'Invalid Date';
+    return timestamp.toLocaleString(undefined, {
       dateStyle: 'medium',
       timeStyle: 'short',
     });
   };
-
+  
+  
   const indexOfLastLog = currentPage * logsPerPage;
   const indexOfFirstLog = indexOfLastLog - logsPerPage;
   const currentLogs = logs.slice(indexOfFirstLog, indexOfLastLog);

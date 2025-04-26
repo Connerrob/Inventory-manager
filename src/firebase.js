@@ -1,15 +1,15 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth"; // Importing Firebase Auth
-import { getFirestore } from "firebase/firestore"; // If you're using Firestore for data storage
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
-// Your Firebase config
+// Your new Firebase config
 const firebaseConfig = {
-  apiKey: "AIzaSyB0K7Lbxz67NK1y2LXd9EdTMRgdl_VhF7M",
-  authDomain: "inventoryapp-5d955.firebaseapp.com",
-  projectId: "inventoryapp-5d955",
-  storageBucket: "inventoryapp-5d955.firebasestorage.app",
-  messagingSenderId: "593660543855",
-  appId: "1:593660543855:web:f92272b7b000bc2a441e9a"
+  apiKey: "AIzaSyBG20S5ahfCSvPxrO4E2z34YICqpahciSw",
+  authDomain: "inventory-2-c8b62.firebaseapp.com",
+  projectId: "inventory-2-c8b62",
+  storageBucket: "inventory-2-c8b62.appspot.com",
+  messagingSenderId: "888326232942",
+  appId: "1:888326232942:web:75e283cc8d6f0ae38a7f7f"
 };
 
 // Initialize Firebase
@@ -18,7 +18,7 @@ const app = initializeApp(firebaseConfig);
 // Get Firebase Auth instance
 const auth = getAuth(app);
 
-// Get Firestore instance (if needed)
+// Get Firestore instance
 const db = getFirestore(app);
 
 export { auth, db };
