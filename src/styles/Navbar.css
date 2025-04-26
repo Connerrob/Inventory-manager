@@ -1,35 +1,35 @@
 .navbar-custom {
   width: 100%;
-  background-color: #1f1f1f;
-  color: #ffffff;
+  background-color: var(--background); /* Use --background */
+  color: var(--text);
   padding: 12px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--border-color); /* Use --border-color */
 }
 
 .navbar-brand-text {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--text); /* Use --text */
   margin-right: 24px;
 }
 
 .search-input {
   width: 100%;
   padding: 8px 16px;
-  background-color: #2a2a2a;
-  color: #ffffff;
-  border: 1px solid #444;
+  background-color: var(--secondary); /* Use --secondary for the search input background */
+  color: var(--text); /* Use --text for the font color */
+  border: 1px solid var(--border-color); /* Use --border-color */
   border-radius: 8px;
   outline: none;
 }
 
 .search-input::placeholder {
-  color: #aaa;
+  color: var(--secondary); /* Use --secondary for placeholder text */
 }
 
 .search-input:focus {
-  border-color: #4caf50;
+  border-color: var(--accent); /* Use --accent for the focus border color */
 }

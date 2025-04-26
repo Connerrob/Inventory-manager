@@ -1,131 +1,75 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";  // Use useNavigate from react-router-dom
+import { useNavigate } from "react-router-dom";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 const LoginForm = () => {
-  const [formMode, setFormMode] = useState("login");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [retypePassword, setRetypePassword] = useState("");
   const [error, setError] = useState("");
 
-  // Hook to redirect user (useNavigate instead of useHistory)
   const navigate = useNavigate();
+  const auth = getAuth();
+  const db = getFirestore();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // For login mode
-    if (formMode === "login") {
-      if (username === "admin" && password === "password123") {
-        console.log("Login successful");
-        // Redirect to dashboard after successful login
-        navigate("/dashboard");
-      } else {
-        setError("Invalid credentials!");
-      }
+    if (!username || !password) {
+      setError("Please enter both username and password.");
+      return;
     }
 
-    // For signup mode
-    if (formMode === "signup") {
-      if (username && password && email && retypePassword) {
-        if (password === retypePassword) {
-          console.log("Sign up successful");
-        } else {
-          setError("Passwords do not match!");
-        }
-      } else {
-        setError("Please fill in all fields!");
-      }
-    }
-  };
+    try {
+      // Lookup email from Firestore
+      const userRef = doc(db, "users", username.toLowerCase()); // use lowercase to avoid mistakes
+      const userSnap = await getDoc(userRef);
 
-  const handleSwitchMode = () => {
-    setFormMode(formMode === "login" ? "signup" : "login");
-    setError(""); // Reset error when switching forms
+      if (!userSnap.exists()) {
+        setError("Username not found.");
+        return;
+      }
+
+      const { email } = userSnap.data();
+
+      // Try logging in with the email and password
+      await signInWithEmailAndPassword(auth, email, password);
+      console.log("Login successful");
+      navigate("/dashboard");
+    } catch (err) {
+      console.error(err);
+      setError("Invalid credentials. Please try again.");
+    }
   };
 
   return (
     <div className="login-container">
-      <h2>{formMode === "login" ? "Login" : "Sign Up"}</h2>
+      <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <div className="input-group">
           <input
             type="text"
-            id="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Username"
           />
         </div>
 
-        {formMode === "signup" && (
-          <div className="input-group">
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email"
-            />
-          </div>
-        )}
-
         <div className="input-group">
           <input
             type="password"
-            id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
           />
         </div>
 
-        {formMode === "signup" && (
-          <div className="input-group">
-            <input
-              type="password"
-              id="retypePassword"
-              value={retypePassword}
-              onChange={(e) => setRetypePassword(e.target.value)}
-              placeholder="Re-type Password"
-            />
-          </div>
-        )}
-
         {error && <p className="error">{error}</p>}
 
-        <button
-          type="submit"
-          disabled={
-            !username ||
-            !password ||
-            (formMode === "signup" &&
-              (!email || !retypePassword || password !== retypePassword))
-          }
-        >
-          {formMode === "login" ? "Login" : "Sign Up"}
+        <button type="submit" disabled={!username || !password}>
+          Login
         </button>
       </form>
-
-      <footer>
-        <p>
-          {formMode === "login"
-            ? "Don't have an account? "
-            : "Already have an account? "}
-          <button
-            onClick={handleSwitchMode}
-            style={{
-              background: "none",
-              border: "none",
-              color: "#007bff",
-              textDecoration: "underline",
-            }}
-          >
-            {formMode === "login" ? "Sign up" : "Login"}
-          </button>
-        </p>
-      </footer>
     </div>
   );
 };

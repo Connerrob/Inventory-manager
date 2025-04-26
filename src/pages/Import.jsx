@@ -6,6 +6,7 @@ import { logAction } from '../utils';
 import Papa from 'papaparse';
 import Sidebar from '../components/Sidebar';
 import AddAssetModal from '../components/AddAssetModal';
+import '../styles/Import.css';
 
 const Import = () => {
   const [collapsed, setCollapsed] = useState(true);

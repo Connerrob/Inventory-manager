@@ -22,7 +22,10 @@ const Reports = () => {
           id: doc.id,
           ...doc.data(),
         }));
-        logsList.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+        // Sort logs by Firestore timestamp (newest first)
+        logsList.sort((a, b) => b.timestamp?.toDate() - a.timestamp?.toDate());
+
         setLogs(logsList);
       } catch (error) {
         console.error('Error fetching logs:', error);
@@ -32,9 +35,9 @@ const Reports = () => {
     fetchLogs();
   }, []);
 
-  const formatTimestamp = (isoString) => {
-    const date = new Date(isoString);
-    return date.toLocaleString(undefined, {
+  const formatTimestamp = (timestamp) => {
+    if (!timestamp || typeof timestamp.toDate !== 'function') return 'Invalid Date';
+    return timestamp.toDate().toLocaleString(undefined, {
       dateStyle: 'medium',
       timeStyle: 'short',
     });

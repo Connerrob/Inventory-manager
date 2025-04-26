@@ -10,23 +10,24 @@ const AssetTable = ({ assets, onEditClick, searchQuery }) => {
     <Table striped bordered hover>
       <thead>
         <tr>
+          <th>Actions</th>
           <th>Item</th>
           <th>Category</th>
           <th>Description</th>
           <th>Quantity</th>
-          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         {filteredAssets.map((asset) => (
           <tr key={asset.id}>
+            <td>
+              <Button onClick={() => onEditClick(asset)} variant="warning">Edit</Button>
+            </td>
             <td>{asset.name}</td>
             <td>{asset.category}</td>
             <td>{asset.description}</td>
             <td>{asset.quantity}</td>
-            <td>
-              <Button onClick={() => onEditClick(asset)} variant="warning">Edit</Button>
-            </td>
+    
           </tr>
         ))}
       </tbody>

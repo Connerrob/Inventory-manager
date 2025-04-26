@@ -1,91 +1,90 @@
 /* General Import Page Styling */
 .import-container-wrapper {
-    display: flex;
-    height: 100vh;
-    background-color: var(--background);
-  }
-  
-  .import-content {
-    flex-grow: 1;
-    padding: 20px;
-    background-color: var(--background);
-  }
-  
-  .import-content-wrapper {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .import-content h2 {
-    font-size: 2rem;
-    color: var(--text);
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .file-upload-container {
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .file-input {
-    width: 80%;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 4px;
-    border: 1px solid var(--border-color);
-    background-color: var(--background);
-    color: var(--text);
-    font-size: 1rem;
-  }
-  
-  .file-input:hover {
-    background-color: var(--primary);
-    cursor: pointer;
-  }
+  display: flex;
+  height: 100vh;
+  background-color: var(--background); /* Use --background */
+}
+
+.import-content {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: var(--background); /* Use --background */
+}
+
+.import-content-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff; /* You can adjust this if you want it to follow a darker theme */
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.import-content h2 {
+  font-size: 2rem;
+  color: var(--text); /* Use --text */
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.file-upload-container {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.file-input {
+  width: 80%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+  border: 1px solid var(--border-color); /* Use --border-color */
+  background-color: var(--background); /* Use --background */
+  color: var(--text); /* Use --text */
+  font-size: 1rem;
+}
+
+.file-input:hover {
+  background-color: var(--primary); /* Use --primary */
+  cursor: pointer;
+}
 
 .download-template-btn {
-    display: block;
-    width: 60%;
-    margin: 20px auto;
-    padding: 10px 20px;
-    background-color: #4CAF50; 
-    color: #fff; 
-    font-size: 1rem;
-    border-radius: 4px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+  display: block;
+  width: 60%;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: var(--accent); /* Use --accent */
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.download-template-btn:hover {
+  background-color: #45a049; /* You can update this with a more consistent green */
+}
+
+.download-template-btn:focus {
+  outline: none;
+  box-shadow: 0 0 10px var(--accent); /* Use --accent */
+}
+
+@media (max-width: 768px) {
+  .import-content-wrapper {
+    padding: 15px;
   }
-  
-  .download-template-btn:hover {
-    background-color: #45a049; 
+
+  .import-content h2 {
+    font-size: 1.5rem;
   }
-  
-  .download-template-btn:focus {
-    outline: none;
-    box-shadow: 0 0 10px #45a049;
+
+  .file-input {
+    width: 100%;
   }
-  
-  @media (max-width: 768px) {
-    .import-content-wrapper {
-      padding: 15px;
-    }
-  
-    .import-content h2 {
-      font-size: 1.5rem;
-    }
-  
-    .file-input {
-      width: 100%;
-    }
-  
-    .download-template-btn {
-      width: 80%;
-    }
+
+  .download-template-btn {
+    width: 80%;
   }
-  
+}
